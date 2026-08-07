@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "extractor",
+  "version": "${version}",
+  "name": "extractor",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/extractor/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.zisis912.extractor.Extractor"
+    ]
+  },
+  "mixins": [
+    "extractor.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
