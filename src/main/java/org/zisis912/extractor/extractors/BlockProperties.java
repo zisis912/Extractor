@@ -1,6 +1,7 @@
 package org.zisis912.extractor.extractors;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,30 +13,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.zisis912.extractor.Extractor.gson;
 
 public class BlockProperties implements JsonExtractor {
 
     public String filename() {
-        return "block_properties";
+        return "block_properties.json";
     }
 
     public JsonElement extractData() {
-        Map<String, Map<String, List<String>>> blockProperties = new LinkedHashMap<>();
+        JsonObject blockProperties = new JsonObject();
 
         for (Block block : BuiltInRegistries.BLOCK) {
-            String blockName = block.getDescriptionId();
-            Map<String,List<String>> properties = new LinkedHashMap<>();
+            JsonObject properties = new JsonObject();
+            blockProperties.add(block.getDescriptionId(),properties);
 
             for (Property<?> property : block.getStateDefinition().getProperties()) {
-                List<String> propertyValues = property.getAllValues().map(Property.Value::valueName).toList();
+                JsonArray propertyValues = new JsonArray();
+                properties.add(property.getName(), propertyValues);
 
-                properties.put(property.getName(), propertyValues);
+                property.getAllValues().map(Property.Value::valueName).forEach(propertyValues::add);
             }
 
-            blockProperties.put(blockName,properties);
         }
 
-        return gson.toJsonTree(blockProperties);
+        return blockProperties;
     }
 }
