@@ -14,10 +14,10 @@ import java.nio.file.Paths;
 public class Extractor implements ClientModInitializer {
 
     static final JsonExtractor[] providers = {new BlockProperties()};
+    public static final Gson gson = new Gson();
 
     @Override
     public void onInitializeClient() {
-        Gson gson = new Gson();
 
         Path outputDirectory = null;
         try {
